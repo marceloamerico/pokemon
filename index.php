@@ -1,7 +1,17 @@
 <?php
   $url = "https://www.canalti.com.br/api/pokemons.json";
 
+/* Usando file_get_contents*/
   $pokemons = json_decode(file_get_contents($url));
+  /*echo "<pre>";
+  print_r($pokemons);
+  exit;*/
+ 
+/** Usanco Curl*/
+//$ch = curl_init($url);
+//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//$pokemons = json_decode(curl_exec($ch));
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,20 +61,34 @@
             <div class="card-content has-text-centered">
               <div class="content">
                 <h4><?=$Pokemon->name?></h4>
+                <p><?=$Pokemon->height?></p>
                 <p>
                   <ul>
                   <?php
-                  if(count($Pokemon->next_evolution)) {
+                  if(@count($Pokemon->next_evolution)) {
                     echo "Próximas evoluções: ";
                     foreach($Pokemon->next_evolution as $ProximaEvolucao) {
-                        echo $ProximaEvolucao->name . " ";
+                        echo $ProximaEvolucao->name . ", ";
                     }
                   } else {
                     echo "Não possui próximas evoluções ";
                   }
                 ?>
                 </ul>
-                </p>
+                <ul>
+                <?php 
+                  if(@count($Pokemon->weaknesses)){
+                    echo "Fraquezas: ";
+                    foreach($Pokemon->weaknesses as $fraquezas){
+                      echo $fraquezas . ",";
+                    }
+                  }else{
+                    echo "Não possui fraquezas";
+                  }
+                ?>
+                </ul>
+
+                </>
               </div>
             </div>
           </div>
